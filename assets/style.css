@@ -122,7 +122,7 @@ button {
   align-items: center;
   justify-content: center;
   gap: 1.1rem;
-  margin-top: -0.6rem;
+  margin-top: -0.8rem;
 }
 
 .icon-row a {
@@ -434,7 +434,7 @@ button {
   }
 
   .sidebar .icon-row {
-    margin-top: -0.5rem;
+    margin-top: -0.75rem;
   }
 
   .sidebar .crossnav {
