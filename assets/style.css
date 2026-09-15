@@ -149,14 +149,6 @@ button {
   height: 22px;
 }
 
-.icon-row__badge img {
-  width: 22px;
-  height: 22px;
-  border-radius: 6px;
-  object-fit: cover;
-  display: block;
-}
-
 .crossnav {
   display: flex;
   gap: 0.4rem;
@@ -433,13 +425,25 @@ button {
 
 .sidebar { display: none; }
 
-/* ---------- Icon row under name (mobile) ---------- */
-/* The crossnav pills carry their own vertical padding, which visually
-   pads out the gap above them. Nudge the icon row down to match that
-   same breathing room below the name. */
+/* ---------- Mail icon under name (mobile) ---------- */
 
-.main .icon-row {
-  margin-top: 0.35rem;
+.mark__mail {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  color: var(--text-dim);
+  transition: opacity 0.15s ease;
+}
+
+.mark__mail:hover {
+  opacity: 0.6;
+}
+
+.mark__mail svg {
+  width: 22px;
+  height: 22px;
 }
 
 /* ---------- Desktop ---------- */
