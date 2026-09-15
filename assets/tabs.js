@@ -11,3 +11,12 @@ document.querySelectorAll('.tabs').forEach(function (tabs) {
     });
   });
 });
+
+document.querySelectorAll('.mobile-footer').forEach(function (footer) {
+  footer.addEventListener('click', function () {
+    footer.classList.add('is-tapped');
+    setTimeout(function () {
+      footer.classList.remove('is-tapped');
+    }, 220);
+  });
+});

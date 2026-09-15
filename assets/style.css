@@ -425,9 +425,76 @@ button {
 
 .sidebar { display: none; }
 
+/* ---------- Mobile bottom footer ---------- */
+
+.mobile-footer { display: none; }
+
+@media not ((min-width: 880px) and (min-aspect-ratio: 1/1)) {
+
+  /* Twitter/email icon row is replaced by the bottom footer on mobile —
+     hide it and let the name + crossnav close the gap it left behind. */
+  .main .icon-row {
+    display: none;
+  }
+
+  /* Reserve space at the bottom of the page equal to the footer's
+     height (it's fixed, so it would otherwise cover content). */
+  .main {
+    padding-bottom: calc((79 / 288) * 100vw + 2rem);
+  }
+
+  .mobile-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    width: 100%;
+    aspect-ratio: 288 / 79;
+    background-color: #ADADAD;
+    overflow: hidden;
+    z-index: 40;
+  }
+
+  /* Overlay image — drop assets/footer.webp in and it fills the bar
+     exactly, since both share the same 288:79 aspect ratio. */
+  .mobile-footer__image {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    pointer-events: none;
+  }
+
+  .mobile-footer__icon {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 34px;
+    height: 34px;
+    transform: scale(1);
+    transition: transform 0.18s ease;
+  }
+
+  .mobile-footer__icon svg {
+    width: 24px;
+    height: 24px;
+  }
+
+  .mobile-footer:active .mobile-footer__icon,
+  .mobile-footer.is-tapped .mobile-footer__icon {
+    transform: scale(1.25);
+  }
+}
+
 /* ---------- Desktop ---------- */
 
-@media (min-width: 880px) {
+@media (min-width: 880px) and (min-aspect-ratio: 1/1) {
   body {
     display: flex;
     min-height: 100vh;
