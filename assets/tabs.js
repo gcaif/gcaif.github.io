@@ -13,10 +13,43 @@ document.querySelectorAll('.tabs').forEach(function (tabs) {
 });
 
 document.querySelectorAll('.mobile-footer').forEach(function (footer) {
-  footer.addEventListener('click', function () {
+  function fallbackCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.focus();
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+  }
+
+  function showCopied() {
     footer.classList.add('is-tapped');
     setTimeout(function () {
       footer.classList.remove('is-tapped');
     }, 220);
+
+    footer.classList.remove('-copied');
+    void footer.offsetWidth;
+    footer.classList.add('-copied');
+    clearTimeout(footer._copiedTimeout);
+    footer._copiedTimeout = setTimeout(function () {
+      footer.classList.remove('-copied');
+    }, 1400);
+  }
+
+  footer.addEventListener('click', function () {
+    var email = footer.getAttribute('data-email');
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(email).then(showCopied).catch(function () {
+        fallbackCopy(email);
+        showCopied();
+      });
+    } else {
+      fallbackCopy(email);
+      showCopied();
+    }
   });
 });
