@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>gcaif — projects</title>
+<meta name="description" content="gcaif — things built and things underway.">
+<link rel="stylesheet" href="../assets/style.css">
+</head>
+<body>
+<a class="skip-link" href="#content">Skip to content</a>
+
+<div class="shell">
+
+  <aside class="sidebar">
+    <div class="mark">
+      <p class="mark__name"><a href="/">gcaif</a></p>
+    </div>
+    <p class="tagline">Things I've built, and things I'm still building.</p>
+    <nav class="crossnav" aria-label="Sections">
+      <a href="/media/">Socials &amp; media</a>
+      <a href="/projects/" aria-current="page">Projects</a>
+    </nav>
+  </aside>
+
+  <main class="main" id="content">
+    <div class="mark">
+      <p class="mark__name"><a href="/">gcaif</a></p>
+      <nav class="crossnav" aria-label="Sections">
+        <a href="/media/">Socials &amp; media</a>
+        <a href="/projects/" aria-current="page">Projects</a>
+      </nav>
+    </div>
+    <p class="tagline">Things I've built, and things I'm still building.</p>
+
+    <div class="tabs" role="tablist" aria-label="Projects">
+      <button class="tab" role="tab" id="tab-projects" aria-controls="panel-projects" aria-selected="true">Projects</button>
+      <button class="tab" role="tab" id="tab-progress" aria-controls="panel-progress" aria-selected="false">In progress</button>
+    </div>
+
+    <section class="panel grid" id="panel-projects" role="tabpanel" aria-labelledby="tab-projects">
+
+      <article class="card">
+        <div class="card__head">
+          <h3 class="card__title">Field Notes</h3>
+        </div>
+        <p class="card__desc">A small static-site generator for keeping a running log of notes, built to stay out of the way.</p>
+        <div class="card__tags">
+          <span class="tag">python</span>
+          <span class="tag">cli</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card__head">
+          <h3 class="card__title">Cartograph</h3>
+        </div>
+        <p class="card__desc">A minimal tool for turning a spreadsheet of places into a shareable, offline-friendly map.</p>
+        <div class="card__tags">
+          <span class="tag">javascript</span>
+          <span class="tag">maps</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card__head">
+          <h3 class="card__title">Weekly Digest</h3>
+        </div>
+        <p class="card__desc">A script that reads a folder of notes and mails out a short summary every Sunday.</p>
+        <div class="card__tags">
+          <span class="tag">automation</span>
+          <span class="tag">email</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card__head">
+          <h3 class="card__title">Index</h3>
+        </div>
+        <p class="card__desc">This site — a small, hand-built directory instead of a hosted link page.</p>
+        <div class="card__tags">
+          <span class="tag">html</span>
+          <span class="tag">css</span>
+        </div>
+      </article>
+
+    </section>
+
+    <section class="panel grid" id="panel-progress" role="tabpanel" aria-labelledby="tab-progress" hidden>
+
+      <article class="card card--live">
+        <div class="card__head">
+          <h3 class="card__title">Nightshade</h3>
+          <span class="card__status"><span class="card__dot"></span>active</span>
+        </div>
+        <p class="card__desc">A theme-authoring tool for building and previewing dark palettes side by side.</p>
+        <div class="card__tags">
+          <span class="tag">design tools</span>
+          <span class="tag">svelte</span>
+        </div>
+      </article>
+
+      <article class="card card--live">
+        <div class="card__head">
+          <h3 class="card__title">Atlas</h3>
+          <span class="card__status"><span class="card__dot"></span>active</span>
+        </div>
+        <p class="card__desc">A personal reading tracker that syncs with StoryGraph and adds yearly summaries.</p>
+        <div class="card__tags">
+          <span class="tag">api</span>
+          <span class="tag">python</span>
+        </div>
+      </article>
+
+      <article class="card">
+        <div class="card__head">
+          <h3 class="card__title">Ledger</h3>
+          <span class="card__status"><span class="card__dot"></span>paused</span>
+        </div>
+        <p class="card__desc">A plain-text budgeting format, and a small renderer for turning it into a monthly view.</p>
+        <div class="card__tags">
+          <span class="tag">plain text</span>
+          <span class="tag">rust</span>
+        </div>
+      </article>
+
+    </section>
+
+    <p class="foot">Updated as things change.</p>
+  </main>
+
+</div>
+
+<script src="../assets/tabs.js"></script>
+</body>
+</html>
