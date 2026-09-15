@@ -1,24 +1,29 @@
-/* gcaif — index
+/* Saif — index
    A personal directory, kept like a ledger. */
 
-@import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400..700&display=swap');
 
 :root {
-  --ink: #14181f;
-  --ink-panel: #1b212b;
-  --ink-raised: #212834;
-  --paper: #ece7dc;
-  --pine: #5c7d6f;
-  --pine-dim: rgba(92, 125, 111, 0.16);
+  --bg: #eef2f6;
+  --panel: #ffffff;
+  --header-rgb: 143, 167, 204;
+  --header: #8fa7cc;
+  --header-deep: #6c86ad;
+  --pine: #4f7566;
+  --pine-dim: rgba(79, 117, 102, 0.14);
   --clay: #a97b52;
-  --line: rgba(236, 231, 220, 0.12);
-  --line-soft: rgba(236, 231, 220, 0.07);
-  --text: #ece8df;
-  --text-dim: #9aa1ab;
-  --text-faint: #6b7280;
+  --line: rgba(27, 36, 48, 0.10);
+  --line-soft: rgba(27, 36, 48, 0.06);
+  --text: #1c2430;
+  --text-dim: #5b6472;
+  --text-faint: #8891a0;
 
-  --serif: 'Fraunces', Georgia, serif;
-  --sans: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --serif: 'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --sans: 'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --glass-bg: rgba(255, 255, 255, 0.55);
+  --glass-border: rgba(255, 255, 255, 0.75);
+  --glass-shadow: 0 1px 3px rgba(28, 36, 48, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6);
 }
 
 * { box-sizing: border-box; }
@@ -30,7 +35,7 @@ html {
 
 body {
   margin: 0;
-  background: var(--ink);
+  background-color: var(--bg);
   color: var(--text);
   font-family: var(--sans);
   font-size: 16px;
@@ -48,7 +53,7 @@ button {
 }
 
 :focus-visible {
-  outline: 2px solid var(--pine);
+  outline: 2px solid var(--header-deep);
   outline-offset: 3px;
 }
 
@@ -63,9 +68,11 @@ button {
 .skip-link:focus {
   left: 1rem;
   top: 1rem;
-  background: var(--ink-raised);
+  background: var(--panel);
+  color: var(--text);
   padding: 0.5rem 1rem;
   border-radius: 4px;
+  box-shadow: var(--glass-shadow);
   z-index: 10;
 }
 
@@ -74,7 +81,16 @@ button {
 .shell {
   max-width: 640px;
   margin: 0 auto;
+}
+
+.main {
   padding: 3rem 1.5rem 5rem;
+  background-image: linear-gradient(
+    180deg,
+    rgba(var(--header-rgb), 0.35) 0%,
+    rgba(var(--header-rgb), 0) 340px
+  );
+  background-repeat: no-repeat;
 }
 
 .mark {
@@ -87,37 +103,43 @@ button {
 
 .mark__name {
   font-family: var(--serif);
-  font-weight: 500;
+  font-weight: 700;
   font-size: clamp(1.6rem, 5vw, 2rem);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
+  color: var(--header-deep);
 }
 
 .mark__name a {
   border-bottom: 1px solid transparent;
 }
 .mark__name a:hover {
-  border-bottom-color: var(--text-faint);
+  border-bottom-color: var(--header);
 }
 
 .crossnav {
   display: flex;
-  gap: 1.25rem;
+  gap: 0.4rem;
   font-size: 0.9rem;
-  color: var(--text-dim);
 }
 
 .crossnav a {
-  padding-bottom: 2px;
-  border-bottom: 1px solid transparent;
+  color: var(--header-deep);
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
 }
 
 .crossnav a[aria-current="page"] {
-  color: var(--text);
-  border-bottom-color: var(--clay);
+  background: var(--glass-bg);
+  border-color: var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(8px) saturate(140%);
+  -webkit-backdrop-filter: blur(8px) saturate(140%);
 }
 
-.crossnav a:hover {
-  color: var(--text);
+.crossnav a:hover:not([aria-current="page"]) {
+  background: rgba(255, 255, 255, 0.32);
 }
 
 .tagline {
@@ -131,27 +153,33 @@ button {
 
 .tabs {
   display: flex;
-  gap: 1.75rem;
-  border-bottom: 1px solid var(--line);
-  margin-bottom: 0.5rem;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
 }
 
 .tab {
-  padding: 0 0 0.85rem;
-  font-size: 0.98rem;
-  color: var(--text-faint);
-  border-bottom: 2px solid transparent;
-  margin-bottom: -1px;
-  transition: color 0.15s ease;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-dim);
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
 }
 
 .tab[aria-selected="true"] {
   color: var(--text);
-  border-bottom-color: var(--clay);
+  background: var(--glass-bg);
+  border-color: var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(8px) saturate(140%);
+  -webkit-backdrop-filter: blur(8px) saturate(140%);
 }
 
 .tab:hover:not([aria-selected="true"]) {
-  color: var(--text-dim);
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.32);
 }
 
 .panel[hidden] { display: none; }
@@ -196,7 +224,10 @@ button {
 .entry__name {
   font-family: var(--serif);
   font-size: 1.05rem;
-  font-weight: 500;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  transition: color 0.15s ease;
 }
 
 .entry__handle {
@@ -221,11 +252,11 @@ button {
 .entry__link:hover .entry__go,
 .entry__link:focus-visible .entry__go {
   transform: translateX(3px);
-  color: var(--clay);
+  color: var(--header-deep);
 }
 
 .entry__link:hover .entry__name {
-  color: var(--paper);
+  color: var(--header-deep);
 }
 
 /* ---------- Project cards ---------- */
@@ -251,8 +282,10 @@ button {
 
 .card__title {
   font-family: var(--serif);
-  font-weight: 500;
+  font-weight: 600;
+  letter-spacing: -0.01em;
   font-size: 1.15rem;
+  color: var(--text);
 }
 
 .card__status {
@@ -302,6 +335,7 @@ button {
   border: 1px solid var(--line);
   border-radius: 4px;
   padding: 0.2rem 0.5rem;
+  background: rgba(255, 255, 255, 0.5);
 }
 
 .empty {
@@ -334,7 +368,6 @@ button {
   .shell {
     max-width: none;
     margin: 0;
-    padding: 0;
     display: grid;
     grid-template-columns: 300px minmax(0, 640px);
     width: 100%;
@@ -349,6 +382,12 @@ button {
     border-right: 1px solid var(--line-soft);
     display: flex;
     flex-direction: column;
+    background-image: linear-gradient(
+      180deg,
+      rgba(var(--header-rgb), 0.35) 0%,
+      rgba(var(--header-rgb), 0) 340px
+    );
+    background-repeat: no-repeat;
   }
 
   .sidebar .mark {
@@ -360,11 +399,13 @@ button {
 
   .sidebar .crossnav {
     flex-direction: column;
-    gap: 0.65rem;
+    align-items: flex-start;
+    gap: 0.5rem;
   }
 
   .main {
     padding: 4.5rem 3.5rem 5rem;
+    background-image: none;
   }
 
   .main .mark,
@@ -381,6 +422,7 @@ button {
     border: 1px solid var(--line);
     border-radius: 3px;
     padding: 1.5rem 1.5rem 1.65rem;
+    background: rgba(255, 255, 255, 0.4);
   }
 
   .card__desc { max-width: none; }
