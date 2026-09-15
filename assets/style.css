@@ -425,76 +425,19 @@ button {
 
 .sidebar { display: none; }
 
-/* ---------- Mobile bottom footer ---------- */
+/* ---------- Mail icon next to name (mobile) ---------- */
 
-.mobile-footer { display: none; }
+.mark__mail {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  vertical-align: -3px;
+  margin-right: 0.4rem;
+}
 
-@media not ((min-width: 880px) and (min-aspect-ratio: 1/1)) {
-
-  /* Twitter/email icon row is replaced by the bottom footer on mobile —
-     hide it and let the name + crossnav close the gap it left behind. */
-  .main .icon-row {
-    display: none;
-  }
-
-  /* Reserve space at the bottom of the page for the floating button. */
-  .main {
-    padding-bottom: 4.5rem;
-  }
-
-  .mobile-footer {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    position: fixed;
-    left: 50%;
-    bottom: 1.25rem;
-    transform: translateX(-50%);
-    width: 42px;
-    height: 42px;
-    padding: 0;
-    border: none;
-    border-radius: 50%;
-    background-color: #d8e2ec;
-    color: #000000;
-    cursor: pointer;
-    z-index: 40;
-  }
-
-  .mobile-footer__icon {
-    width: 20px;
-    height: 20px;
-    pointer-events: none;
-    transform: scale(1);
-    transition: transform 0.18s ease;
-  }
-
-  .mobile-footer__tooltip {
-    position: absolute;
-    left: 50%;
-    bottom: calc(100% + 0.5rem);
-    transform: translateX(-50%) translateY(4px);
-    background-color: #d8e2ec;
-    color: #000000;
-    font-size: 0.72rem;
-    font-weight: 600;
-    padding: 0.3rem 0.6rem;
-    border-radius: 6px;
-    white-space: nowrap;
-    opacity: 0;
-    pointer-events: none;
-    transition: opacity 0.18s ease, transform 0.18s ease;
-  }
-
-  .mobile-footer.-copied .mobile-footer__tooltip {
-    opacity: 1;
-    transform: translateX(-50%) translateY(0);
-  }
-
-  .mobile-footer:active .mobile-footer__icon,
-  .mobile-footer.is-tapped .mobile-footer__icon {
-    transform: scale(1.25);
-  }
+.mark__mail svg {
+  width: 0.82em;
+  height: 0.82em;
 }
 
 /* ---------- Desktop ---------- */
