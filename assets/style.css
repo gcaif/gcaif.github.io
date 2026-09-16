@@ -6,9 +6,9 @@
 :root {
   --bg: #eef2f6;
   --panel: #ffffff;
-  --header-rgb: 31, 159, 255;
-  --header: #1f9fff;
-  --header-deep: #136fb8;
+  --header-rgb: 16, 33, 55;
+  --header: #102137;
+  --header-deep: #0a1526;
   --pine: #3f5f52;
   --pine-dim: rgba(63, 95, 82, 0.16);
   --clay: #8f6340;
@@ -98,7 +98,7 @@ button {
   height: 180px;
   background-image: linear-gradient(
     180deg,
-    rgba(var(--header-rgb), 0.35) 0%,
+    rgba(var(--header-rgb), 0.75) 0%,
     rgba(var(--header-rgb), 0) 100%
   );
   border-radius: 0 0 28px 28px;
@@ -495,7 +495,7 @@ button {
     height: 180px;
     background-image: linear-gradient(
       180deg,
-      rgba(var(--header-rgb), 0.35) 0%,
+      rgba(var(--header-rgb), 0.75) 0%,
       rgba(var(--header-rgb), 0) 100%
     );
     border-radius: 0 0 28px 28px;
