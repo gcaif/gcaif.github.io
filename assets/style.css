@@ -117,7 +117,7 @@ button {
 .mark__name {
   font-family: var(--serif);
   font-weight: 800;
-  font-size: clamp(2.1rem, 7vw, 2.75rem);
+  font-size: clamp(2.3rem, 7.5vw, 3rem);
   letter-spacing: -0.02em;
   margin: 1em 0 0;
   color: #004D80;
@@ -457,7 +457,7 @@ button {
   justify-content: center;
   width: 34px;
   height: 34px;
-  margin-top: -0.4rem;
+  margin-top: -0.65rem;
   color: var(--text-dim);
   transition: opacity 0.15s ease;
 }
