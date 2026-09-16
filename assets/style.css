@@ -176,11 +176,9 @@ button {
 }
 
 .crossnav a[aria-current="page"] {
-  background: var(--glass-bg);
-  border-color: var(--glass-border);
+  background: rgba(var(--header-rgb), 0.35);
+  border-color: #000;
   box-shadow: var(--glass-shadow);
-  backdrop-filter: blur(8px) saturate(140%);
-  -webkit-backdrop-filter: blur(8px) saturate(140%);
 }
 
 .crossnav a:hover:not([aria-current="page"]) {
@@ -216,11 +214,9 @@ button {
 
 .tab[aria-selected="true"] {
   color: var(--text);
-  background: var(--glass-bg);
-  border-color: var(--glass-border);
+  background: rgba(var(--header-rgb), 0.35);
+  border-color: #000;
   box-shadow: var(--glass-shadow);
-  backdrop-filter: blur(8px) saturate(140%);
-  -webkit-backdrop-filter: blur(8px) saturate(140%);
 }
 
 .tab:hover:not([aria-selected="true"]) {
