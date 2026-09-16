@@ -36,8 +36,6 @@ html {
 body {
   margin: 0;
   background-color: var(--bg);
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='0.04'/%3E%3C/svg%3E");
-  background-repeat: repeat;
   color: var(--text);
   font-family: var(--sans);
   font-size: 16px;
@@ -111,41 +109,17 @@ button {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 1.1rem;
+  gap: 1rem;
   margin-bottom: 2.75rem;
-  padding-bottom: 1.85rem;
   text-align: center;
-  border-bottom: 1px solid var(--line-soft);
-}
-
-.mark__id {
-  display: flex;
-  align-items: center;
-  gap: 0.9rem;
-}
-
-.mark__avatar {
-  flex: none;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 3.1rem;
-  height: 3.1rem;
-  border-radius: 15px;
-  font-family: var(--serif);
-  font-weight: 800;
-  font-size: 1.35rem;
-  color: #fff;
-  background-image: linear-gradient(140deg, var(--header) 0%, var(--header-deep) 100%);
-  box-shadow: 0 8px 18px -4px rgba(var(--header-rgb), 0.45), inset 0 1px 0 rgba(255, 255, 255, 0.4);
 }
 
 .mark__name {
   font-family: var(--serif);
   font-weight: 800;
-  font-size: clamp(2.1rem, 7vw, 2.7rem);
+  font-size: clamp(2.3rem, 7.5vw, 3rem);
   letter-spacing: -0.02em;
-  margin: 0;
+  margin: 1em 0 0;
   color: #004D80;
   background-image: linear-gradient(100deg, #004D80 0%, #0066AD 100%);
   -webkit-background-clip: text;
