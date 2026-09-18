@@ -95,7 +95,6 @@ var IN_PROGRESS = [
       var img = document.createElement('img');
       img.src = ICON_DIR + item.icon;
       img.alt = '';
-      img.loading = 'lazy';
       img.width = 28;
       img.height = 28;
       // if the webp isn't there yet, drop the badge instead of showing a broken image
