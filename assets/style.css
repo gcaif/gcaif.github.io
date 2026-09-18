@@ -116,6 +116,114 @@ button {
   cursor: default;
 }
 
+/* ---------- Brand name swap (GCaif <-> Saif) ---------- */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+.brand-name {
+  display: inline-flex;
+  align-items: baseline;
+}
+
+.brand-name__swap {
+  display: inline-grid;
+  vertical-align: baseline;
+}
+
+.brand-name__swap > span {
+  grid-area: 1 / 1;
+  display: inline-block;
+}
+
+.brand-name__gc,
+.brand-name__s {
+  animation-duration: 6s;
+  animation-iteration-count: infinite;
+  animation-timing-function: cubic-bezier(0.65, 0, 0.35, 1);
+  will-change: opacity, transform, filter;
+}
+
+.brand-name__gc {
+  animation-name: brand-swap-gc;
+}
+
+.brand-name__s {
+  animation-name: brand-swap-s;
+}
+
+@keyframes brand-swap-gc {
+  0%,
+  40% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+  47% {
+    opacity: 0;
+    transform: translateY(-0.4em) scale(0.75);
+    filter: blur(4px);
+  }
+  70% {
+    opacity: 0;
+    transform: translateY(-0.4em) scale(0.75);
+    filter: blur(4px);
+  }
+  77%,
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes brand-swap-s {
+  0%,
+  40% {
+    opacity: 0;
+    transform: translateY(0.4em) scale(0.75);
+    filter: blur(4px);
+  }
+  47% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+  70% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+  77%,
+  100% {
+    opacity: 0;
+    transform: translateY(0.4em) scale(0.75);
+    filter: blur(4px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .brand-name__gc,
+  .brand-name__s {
+    animation: none;
+  }
+  .brand-name__gc {
+    opacity: 1;
+  }
+  .brand-name__s {
+    opacity: 0;
+  }
+}
+
 .top-header::before {
   content: "";
   position: absolute;
