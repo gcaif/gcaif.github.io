@@ -32,6 +32,8 @@
 html {
   -webkit-font-smoothing: antialiased;
   text-rendering: optimizeLegibility;
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
 }
 
 body {
@@ -565,7 +567,7 @@ button {
 
 /* ---------- Desktop ---------- */
 
-@media (min-width: 880px) and (min-aspect-ratio: 1/1) {
+@media (min-width: 880px) and (hover: hover) and (pointer: fine) {
   body {
     background-color: var(--header-deep);
     background-image:
