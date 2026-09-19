@@ -541,24 +541,31 @@ button {
   display: flex;
   align-items: center;
   gap: 0.18rem;
+
+  /* Single control: adjust these three to restyle the whole footer brand (icon + text) at once */
+  font-size: 0.90rem;
+  color: #000000;
+  opacity: 0.7;
 }
 
 .footer-brand svg {
   width: 14px;
   height: 14px;
   display: block;
-  opacity: 0.7;
   position: relative;
   top: 0px;
+}
+
+.footer-brand svg path {
+  fill: currentColor;
 }
 
 .footer-brand span {
   font-family: var(--serif);
   font-weight: 700;
-  font-size: 0.90rem;
+  font-size: inherit;
   letter-spacing: 0.02em;
-  color: #000000;
-  opacity: 0.7;
+  color: inherit;
 }
 
 .footer-year {
