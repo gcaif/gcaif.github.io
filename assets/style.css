@@ -561,6 +561,14 @@ button {
   opacity: 0.7;
 }
 
+.footer-year {
+  font-weight: 400;
+}
+
+.footer-sep {
+  font-weight: 400;
+}
+
 .foot {
   margin-top: 3.5rem;
   padding-top: 1.5rem;
