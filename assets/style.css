@@ -548,6 +548,8 @@ button {
   height: 14px;
   display: block;
   opacity: 0.7;
+  position: relative;
+  top: 0px;
 }
 
 .footer-brand span {
