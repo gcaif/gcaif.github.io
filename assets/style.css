@@ -543,21 +543,9 @@ button {
   gap: 0.18rem;
 
   /* Single control: adjust these three to restyle the whole footer brand (icon + text) at once */
-  font-size: 0.77rem;
+  font-size: 0.72rem;
   color: #000000;
-  opacity: 0.9;
-}
-
-.footer-brand svg {
-  width: 14px;
-  height: 14px;
-  display: block;
-  position: relative;
-  top: 0px;
-}
-
-.footer-brand svg path {
-  fill: currentColor;
+  opacity: 1;
 }
 
 .footer-brand span {
