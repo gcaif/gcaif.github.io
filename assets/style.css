@@ -531,7 +531,7 @@ button {
 .site-footer {
   width: 100%;
   min-height: 4rem;
-  background-color: #e8f3fa;
+  background: linear-gradient(to bottom, #0e5793, #1d7ec7);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -544,7 +544,7 @@ button {
 
   /* Single control: adjust these three to restyle the whole footer brand (icon + text) at once */
   font-size: 0.77rem;
-  color: #000000;
+  color: #ffffff;
   opacity: 0.9;
 }
 
