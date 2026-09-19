@@ -531,7 +531,7 @@ button {
 .site-footer {
   width: 100%;
   min-height: 4rem;
-  background: linear-gradient(to bottom, #0e5793, #1d7ec7);
+  background: #1d7ec7;
   display: flex;
   align-items: center;
   justify-content: center;
