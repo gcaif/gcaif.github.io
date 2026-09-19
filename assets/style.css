@@ -543,7 +543,7 @@ button {
   gap: 0.18rem;
 
   /* Single control: adjust these three to restyle the whole footer brand (icon + text) at once */
-  font-size: 0.73rem;
+  font-size: 0.77rem;
   color: #000000;
   opacity: 0.9;
 }
