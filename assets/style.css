@@ -173,7 +173,7 @@ button {
 }
 
 .top-header__sep {
-  color: rgba(255, 255, 255, 0.28);
+  color: #ffffff;
   font-size: 0.95rem;
   font-weight: 300;
   line-height: 1;
@@ -531,7 +531,7 @@ button {
 .site-footer {
   width: 100%;
   min-height: 4rem;
-  background-color: #e8f3fa;
+  background-color: #C2E6F5;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -543,9 +543,21 @@ button {
   gap: 0.18rem;
 
   /* Single control: adjust these three to restyle the whole footer brand (icon + text) at once */
-  font-size: 0.72rem;
+  font-size: 0.77rem;
   color: #000000;
   opacity: 1;
+}
+
+.footer-brand svg {
+  width: 14px;
+  height: 14px;
+  display: block;
+  position: relative;
+  top: 0px;
+}
+
+.footer-brand svg path {
+  fill: currentColor;
 }
 
 .footer-brand span {
