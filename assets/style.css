@@ -571,13 +571,13 @@ button {
   color: inherit;
 }
 
-.footer-year {
-  font-weight: 700;
+.footer-brand span.footer-year {
+  font-weight: 550;
   font-size: 1.3em;
 }
 
-.footer-copy {
-  font-weight: 700;
+.footer-brand span.footer-copy {
+  font-weight: 550;
   font-size: 1.2em;
 }
 
