@@ -356,7 +356,7 @@ button {
 
 .entry__badge svg { width: 20px; height: 20px; }
 
-.entry__link[href*="x.com"] .entry__badge svg { width: 21px; height: 21px; }
+.entry__link[href*="x.com"] .entry__badge svg { width: 22px; height: 22px; }
 
 .entry__badge img {
   width: 100%;
