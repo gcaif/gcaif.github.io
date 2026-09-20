@@ -165,7 +165,7 @@ button {
 }
 
 .top-header__icons a[aria-label="Email"] {
-  transform: translateX(-4px);
+  transform: translateX(-7px);
 }
 
 .top-header__icons svg path {
