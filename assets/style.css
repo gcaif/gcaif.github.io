@@ -533,7 +533,8 @@ button {
 .site-footer {
   width: 100%;
   min-height: 4rem;
-  background-color: #C2E6F5;
+  background-color: var(--header-deep);
+  box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.18);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -546,7 +547,7 @@ button {
 
   /* Single control: adjust these three to restyle the whole footer brand (icon + text) at once */
   font-size: 0.77rem;
-  color: #000000;
+  color: rgba(255, 255, 255, 0.85);
   opacity: 1;
 }
 
