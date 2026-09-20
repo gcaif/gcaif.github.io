@@ -572,7 +572,13 @@ button {
 }
 
 .footer-year {
-  font-weight: 400;
+  font-weight: 600;
+  font-size: 1.1em;
+}
+
+.footer-copy {
+  font-weight: 700;
+  font-size: 1.1em;
 }
 
 .footer-sep {
