@@ -104,8 +104,8 @@ var IN_PROGRESS = [];
     }
 
     var actions = el('div', 'card__actions');
-    actions.appendChild(buildButton('Download', SVG_DOWNLOAD, item.download, 'primary'));
     actions.appendChild(buildButton('Blueprints', SVG_BLUEPRINT, item.blueprints, 'ghost'));
+    actions.appendChild(buildButton('Download', SVG_DOWNLOAD, item.download, 'primary'));
     card.appendChild(actions);
 
     return card;
