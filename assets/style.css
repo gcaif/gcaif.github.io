@@ -433,23 +433,33 @@ button {
 }
 
 .card {
+  /* icon size — title/year centre against it, and the description's
+     first line sits beside it while the rest wraps underneath */
+  --icon: 5.5rem;
+  --title-lh: 1.6rem;
+  --years-lh: 1.3rem;
+  --desc-lh: 1.4rem;
+
   position: relative;
   display: flex;
-  align-items: stretch;
-  gap: 1.1rem;
-  min-height: 210px;
-  padding: 1.1rem;
+  flex-direction: column;
+  padding: 1.4rem;
   background: rgba(255, 255, 255, 0.55);
   border: 1px solid var(--line);
   border-radius: 24px;
   box-shadow: var(--glass-shadow);
 }
 
-/* icon takes about a third of the card */
+/* icon + text wrap area (flow-root keeps the float inside) */
+.card__main {
+  display: flow-root;
+}
+
 .card__icon {
-  flex: 0 0 33%;
-  align-self: flex-start;
-  aspect-ratio: 1 / 1;
+  float: left;
+  width: var(--icon);
+  height: var(--icon);
+  margin: 0 1rem 0 0;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -472,22 +482,9 @@ button {
   display: block;
 }
 
-.card__body {
-  flex: 1;
-  min-width: 0;
-  display: flex;
-  flex-direction: column;
-}
-
-.card__top {
-  display: flex;
-  align-items: flex-start;
-  gap: 0.6rem;
-}
-
+/* title + year, vertically centred against the icon */
 .card__text {
-  flex: 1;
-  min-width: 0;
+  padding-top: calc((var(--icon) - var(--title-lh) - var(--years-lh)) / 2);
 }
 
 .card__title {
@@ -495,7 +492,7 @@ button {
   font-weight: 600;
   letter-spacing: -0.01em;
   font-size: 1.25rem;
-  line-height: 1.25;
+  line-height: var(--title-lh);
   color: var(--text);
   margin: 0;
 }
@@ -503,17 +500,22 @@ button {
 .card__years {
   color: var(--text-faint);
   font-size: 0.88rem;
-  margin: 0.15rem 0 0;
+  line-height: var(--years-lh);
+  margin: 0;
 }
 
+/* first line beside the icon, the rest wraps under it */
 .card__desc {
   color: var(--text-dim);
   font-size: 0.92rem;
-  margin: 0.7rem 0 0;
+  line-height: var(--desc-lh);
+  margin: 0.35rem 0 0;
 }
 
 .card__status {
-  flex: none;
+  position: absolute;
+  top: 1.1rem;
+  right: 1.4rem;
   display: flex;
   align-items: center;
   gap: 0.4rem;
@@ -540,14 +542,13 @@ button {
   50% { opacity: 0.35; }
 }
 
-/* buttons sit at the bottom-right of the card */
+/* buttons: side by side, pushed to the right */
 .card__actions {
   display: flex;
-  flex-wrap: wrap;
+  flex-wrap: nowrap;
   justify-content: flex-end;
   gap: 0.6rem;
-  margin-top: auto;
-  padding-top: 1rem;
+  margin-top: 1.25rem;
 }
 
 .btn {
@@ -581,6 +582,11 @@ button {
   opacity: 0.45;
   cursor: not-allowed;
   box-shadow: none;
+}
+
+@media (max-width: 400px) {
+  .card { padding: 1.1rem; }
+  .btn { padding: 0.5rem 0.85rem; font-size: 0.88rem; gap: 0.35rem; }
 }
 
 @media (hover: hover) and (pointer: fine) {
@@ -688,8 +694,7 @@ button {
   }
 
   .card {
-    padding: 1.35rem;
-    min-height: 230px;
+    padding: 1.5rem;
   }
 
 }
