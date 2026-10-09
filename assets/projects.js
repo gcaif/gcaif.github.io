@@ -7,6 +7,7 @@
        title:      "Name of the thing",
        icon:       "something.webp",     // file lives in /assets/ — optional
        years:      "2022 – 2023",        // duration of the project
+       desc:       "One or two lines.",
        download:   "https://...",        // Download button link
        blueprints: "https://...",        // Blueprints button link
        status:     "active"              // IN_PROGRESS only: "active" or "paused"
@@ -21,6 +22,7 @@ var PROJECTS = [
     title: "Project Name",
     icon: "",
     years: "2022 – 2023",
+    desc: "A short placeholder description of what this project is and what it does.",
     download: "",
     blueprints: ""
   }
@@ -61,22 +63,21 @@ var IN_PROGRESS = [];
     var card = el('article', 'card');
     if (item.status === 'active') card.classList.add('card--live');
 
-    var head = el('div', 'card__head');
-
     // icon slot — stays as an empty placeholder until an image is provided
     var badge = el('span', 'card__icon');
     if (item.icon) {
       var img = document.createElement('img');
       img.src = ICON_DIR + item.icon;
       img.alt = '';
-      img.width = 52;
-      img.height = 52;
       // if the file isn't there yet, fall back to the empty placeholder
       img.onerror = function () { img.remove(); };
       badge.appendChild(img);
     }
-    head.appendChild(badge);
+    card.appendChild(badge);
 
+    var body = el('div', 'card__body');
+
+    var top = el('div', 'card__top');
     var text = el('div', 'card__text');
     var title = el('h3', 'card__title');
     title.textContent = item.title;
@@ -86,21 +87,28 @@ var IN_PROGRESS = [];
       years.textContent = item.years;
       text.appendChild(years);
     }
-    head.appendChild(text);
+    top.appendChild(text);
 
     if (item.status) {
       var status = el('span', 'card__status');
       status.appendChild(el('span', 'card__dot'));
       status.appendChild(document.createTextNode(item.status));
-      head.appendChild(status);
+      top.appendChild(status);
     }
+    body.appendChild(top);
 
-    card.appendChild(head);
+    if (item.desc) {
+      var desc = el('p', 'card__desc');
+      desc.textContent = item.desc;
+      body.appendChild(desc);
+    }
 
     var actions = el('div', 'card__actions');
     actions.appendChild(buildButton('Download', SVG_DOWNLOAD, item.download, 'primary'));
     actions.appendChild(buildButton('Blueprints', SVG_BLUEPRINT, item.blueprints, 'ghost'));
-    card.appendChild(actions);
+    body.appendChild(actions);
+
+    card.appendChild(body);
 
     return card;
   }
