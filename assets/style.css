@@ -20,6 +20,11 @@
   --text-dim: #4a5462;
   --text-faint: #5f6979;
 
+  /* layout: the column width and side padding grow with the screen (see the
+     width breakpoints at the bottom of the file) — nothing depends on the device type */
+  --shell-w: 640px;
+  --gutter: 1.5rem;
+
   --serif: 'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --sans: 'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
 
@@ -37,9 +42,14 @@ html {
   scrollbar-gutter: stable;
 }
 
+html {
+  background-color: #272d3a;
+}
+
 body {
+  position: relative;
   margin: 0;
-  background-color: var(--bg);
+  background: none;
   color: var(--text);
   font-family: var(--sans);
   font-size: 16px;
@@ -48,6 +58,16 @@ body {
   flex-direction: column;
   min-height: 100vh;
   min-height: 100dvh;
+}
+
+/* page backdrop — a fixed layer (background-attachment: fixed is ignored on iPhone / iPad) */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  background: linear-gradient(160deg, #272d3a 0%, #3e4351 100%);
+  pointer-events: none;
 }
 
 a { color: inherit; text-decoration: none; }
@@ -105,9 +125,10 @@ button {
 .top-header__inner {
   position: relative;
   z-index: 1;
-  max-width: 640px;
+  width: 100%;
+  max-width: var(--shell-w);
   margin: 0 auto;
-  padding: 0.9rem 1.5rem;
+  padding: 0.9rem var(--gutter);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -190,7 +211,7 @@ button {
 
 .shell {
   width: 100%;
-  max-width: 640px;
+  max-width: var(--shell-w);
   margin: 0 auto;
   flex: 1 0 auto;
   display: flex;
@@ -201,7 +222,7 @@ button {
   flex: 1 0 auto;
   position: relative;
   isolation: isolate;
-  padding: 1.5rem 1.5rem 5rem;
+  padding: 1.5rem var(--gutter) 5rem;
   /* soft slate panel (tinted from the header colour #3e4351) so white-background
      images stand out — used on both the Links and Projects pages */
   background-color: #c3c8d2;
@@ -672,6 +693,12 @@ button {
   box-shadow: none;
 }
 
+@media (max-width: 640px) {
+  .card { --icon: 7rem; }
+  .card__title { font-size: 2.1rem; }
+  .card__years { font-size: 1.3rem; }
+}
+
 @media (max-width: 520px) {
   .card { --icon: 6rem; }
   .card__title { font-size: 1.75rem; }
@@ -711,7 +738,7 @@ button {
   flex: none;
   width: 100%;
   min-height: 4rem;
-  padding: 0 1.5rem;
+  padding: 0 var(--gutter);
   background: var(--fade);
   box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.18);
   display: flex;
@@ -767,28 +794,38 @@ button {
   font-size: 0.82rem;
 }
 
-/* ---------- Desktop ---------- */
+/* ---------- Larger screens (width only — phones, iPads, laptops, big monitors) ---------- */
 
-@media (min-width: 880px) and (hover: hover) and (pointer: fine) {
-  body {
-    background-color: var(--header-deep);
-    background-image: linear-gradient(160deg, #272d3a 0%, #3e4351 100%);
-    background-attachment: fixed;
-    background-size: cover;
+/* the column becomes a floating card on the dark page, with room around it */
+@media (min-width: 641px) {
+  :root { --gutter: 2.5rem; }
+
+  .top-header__inner,
+  .shell {
+    width: calc(100% - 4rem);
   }
 
   .main {
-    padding: 2rem 3.5rem 5rem;
-    background-image: none;
+    padding-top: 2rem;
+  }
+
+  .shell {
+    margin-bottom: 2.5rem;
   }
 
   .site-footer {
-    padding: 0 3.5rem;
+    border-radius: 0 0 32px 32px;
+    overflow: hidden;
   }
+}
 
-  .grid {
-    grid-template-columns: 1fr;
-    gap: 0;
+@media (min-width: 900px) {
+  :root {
+    --shell-w: 720px;
+    --gutter: 3.5rem;
   }
+}
 
+@media (min-width: 1400px) {
+  :root { --shell-w: 800px; }
 }
