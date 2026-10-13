@@ -559,14 +559,14 @@ button {
   letter-spacing: -0.02em;
   font-size: 2.4rem;
   line-height: 1.2;
-  color: var(--text);
+  color: #000;
   margin: 0;
 }
 
 .card__years {
   font-family: var(--sans);
   font-weight: 600;
-  color: var(--text);
+  color: #000;
   font-size: 1.45rem;
   line-height: 1.3;
   margin: 0.35rem 0 0;
