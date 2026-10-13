@@ -15,6 +15,12 @@
        years:      "2022 – 2023",        // duration of the project
        note:       "ownership transferred", // optional — small line under the years, shown in brackets
        desc:       "One or two lines.",
+       tags:       [{                    // optional — small coloured links under the title
+                     label: "ISLR",      // that open a Wikipedia pop-up when clicked
+                     wiki:  "https://en.wikipedia.org/wiki/Sign_language_recognition",
+                     bold:  "Isolated sign language recognition (ISLR)", // optional — bold part of text
+                     text:  "Custom description shown in the pop-up."
+                   }],
        download:   "https://...",        // Download button link
        blueprints: "https://..."         // Blueprints button link
      },
@@ -26,6 +32,20 @@
 var PROJECTS = [
   {
     title: "Untitled",
+    tags: [
+      {
+        label: "ISLR",
+        wiki: "https://en.wikipedia.org/wiki/Sign_language_recognition",
+        bold: "Isolated sign language recognition (ISLR)",
+        text: "Isolated sign language recognition (ISLR), also known as word-level SLR, is the task of recognizing individual signs from a given segment."
+      },
+      {
+        label: "CSLR",
+        wiki: "https://en.wikipedia.org/wiki/Sign_language_recognition",
+        bold: "Continuous sign language recognition (CSLR)",
+        text: "Continuous sign language recognition (CSLR), involves predicting all signs from a given sequence of sign language.\nThis task is more suitable for real-world transcription and is sometimes considered an extension of ISLR, depending on the approach used."
+      }
+    ],
     banner: ["b/i.webp"],
     years: "2022 – Mid 2026",
     note: "ownership transferred",
@@ -189,6 +209,111 @@ var PROJECTS = [
     return banner;
   }
 
+  // ---- Wikipedia pop-up (one shared dialog) ----
+  var popup = null, overlay = null, lastFocus = null, reqId = 0;
+
+  function ensurePopup() {
+    if (popup) return;
+    overlay = el('div', 'wiki-overlay');
+    popup = el('div', 'wiki-popup');
+    popup.setAttribute('role', 'dialog');
+    popup.setAttribute('aria-modal', 'true');
+    popup.setAttribute('aria-labelledby', 'wiki-title');
+    popup.innerHTML =
+      '<button type="button" class="wiki-close" aria-label="Close">\u2715</button>' +
+      '<h3 class="wiki-title" id="wiki-title"></h3>' +
+      '<img class="wiki-img" alt="" hidden>' +
+      '<div class="wiki-text"></div>' +
+      '<a class="wiki-link" target="_blank" rel="noopener">Read full article \u2192</a>';
+    document.body.appendChild(overlay);
+    document.body.appendChild(popup);
+    popup.querySelector('.wiki-close').addEventListener('click', closePopup);
+    overlay.addEventListener('click', closePopup);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && popup.classList.contains('is-open')) closePopup();
+    });
+  }
+
+  function closePopup() {
+    if (!popup) return;
+    popup.classList.remove('is-open');
+    overlay.classList.remove('is-open');
+    reqId++;
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  function openWiki(tag, opener) {
+    ensurePopup();
+    var my = ++reqId;
+    lastFocus = opener;
+
+    var url = tag.wiki;
+    var slug = url.split('/wiki/')[1] || '';
+    var fallbackTitle = decodeURIComponent(slug).replace(/_/g, ' ');
+
+    var titleEl = popup.querySelector('.wiki-title');
+    var imgEl = popup.querySelector('.wiki-img');
+    var textEl = popup.querySelector('.wiki-text');
+    var linkEl = popup.querySelector('.wiki-link');
+
+    titleEl.textContent = fallbackTitle;
+    linkEl.href = url;
+    imgEl.hidden = true;
+    imgEl.removeAttribute('src');
+
+    // custom description; the term is bold, "\n" starts a new paragraph
+    textEl.textContent = '';
+    String(tag.text || '').split('\n').forEach(function (para, i) {
+      var p = document.createElement('p');
+      if (i === 0 && tag.bold && para.indexOf(tag.bold) === 0) {
+        var b = document.createElement('strong');
+        b.textContent = tag.bold;
+        p.appendChild(b);
+        p.appendChild(document.createTextNode(para.slice(tag.bold.length)));
+      } else {
+        p.textContent = para;
+      }
+      textEl.appendChild(p);
+    });
+
+    popup.classList.add('is-open');
+    overlay.classList.add('is-open');
+    popup.querySelector('.wiki-close').focus();
+
+    // article title + picture come from Wikipedia; the text stays custom
+    fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + slug)
+      .then(function (res) { if (!res.ok) throw new Error(res.status); return res.json(); })
+      .then(function (data) {
+        if (my !== reqId) return;
+        if (data.title) titleEl.textContent = data.title;
+        if (data.content_urls && data.content_urls.desktop) linkEl.href = data.content_urls.desktop.page;
+        if (data.thumbnail && data.thumbnail.source) {
+          imgEl.src = data.thumbnail.source;
+          imgEl.hidden = false;
+        }
+      })
+      .catch(function () { /* offline: keep the fallback title and custom text */ });
+  }
+
+  function buildTags(tags) {
+    var row = el('p', 'card__tags');
+    tags.forEach(function (tag, i) {
+      if (i) {
+        var sep = el('span', 'card__tag-sep');
+        sep.textContent = '/';
+        sep.setAttribute('aria-hidden', 'true');
+        row.appendChild(sep);
+      }
+      var b = el('button', 'card__tag');
+      b.type = 'button';
+      b.textContent = tag.label;
+      b.setAttribute('aria-haspopup', 'dialog');
+      b.addEventListener('click', function () { openWiki(tag, b); });
+      row.appendChild(b);
+    });
+    return row;
+  }
+
   function buildCard(item) {
     var card = el('article', 'card');
     if (item.status === 'active') card.classList.add('card--live');
@@ -227,6 +352,7 @@ var PROJECTS = [
     var title = el('h3', 'card__title');
     title.textContent = item.title;
     text.appendChild(title);
+    if (item.tags && item.tags.length) text.appendChild(buildTags(item.tags));
     if (noIcon && (item.years || item.note)) {
       // one line: "2022 – Mid 2026 (ownership transferred)"
       var line = el('p', 'card__years card__years--line');
