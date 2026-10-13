@@ -27,6 +27,9 @@
                      bold:  "Isolated sign language recognition (ISLR)", // optional — bold part of text
                      text:  "Custom description shown in the pop-up."
                    }],
+       command:    "curl -fsSL https://...", // optional — code box under the card, click to copy
+       buttons:    [{ label: "Supported Distros", url: "https://..." }], // optional — centered buttons on one line;
+                                         // when present they replace Download / Blueprints
        download:   "https://...",        // Download button link
        blueprints: "https://..."         // Blueprints button link
      },
@@ -71,8 +74,11 @@ var PROJECTS = [
     banner: ["b/klem1.webp", "b/klem2.webp"],
     years: "2022 – 2023",
     desc: "A color-picker and palette tool that adapts to whatever is on your screen.",
-    download: "",
-    blueprints: ""
+    command: "curl -fsSL https://osaif.pages.dev/klem",
+    buttons: [
+      { label: "Supported Distros", url: "" },
+      { label: "Supported Formats", url: "" }
+    ]
   },
   {
     title: "Hiddenball",
@@ -89,8 +95,10 @@ var PROJECTS = [
     banner: "",
     years: "2021 – 2022",
     desc: "A small video streaming experiment with a clean, fast player.",
-    download: "",
-    blueprints: ""
+    command: "curl -fsSL https://osaif.pages.dev/pluk",
+    buttons: [
+      { label: "Supported Distros", url: "" }
+    ]
   },
   {
     title: "Steno",
@@ -331,6 +339,58 @@ var PROJECTS = [
     return row;
   }
 
+  // code box — click anywhere on it to copy the command
+  function copyText(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text);
+    }
+    return new Promise(function (resolve, reject) {
+      var ta = document.createElement('textarea');
+      ta.value = text;
+      ta.setAttribute('readonly', '');
+      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
+      document.body.appendChild(ta);
+      ta.select();
+      var ok = false;
+      try { ok = document.execCommand('copy'); } catch (e) {}
+      ta.remove();
+      ok ? resolve() : reject();
+    });
+  }
+
+  function buildCommand(cmd) {
+    var box = el('button', 'cmd');
+    box.type = 'button';
+    box.setAttribute('aria-label', 'Copy command: ' + cmd);
+    var code = el('code', 'cmd__code');
+    code.textContent = cmd;
+    var hint = el('span', 'cmd__hint');
+    hint.textContent = 'Copy';
+    box.appendChild(code);
+    box.appendChild(hint);
+
+    var timer = null;
+    box.addEventListener('click', function () {
+      copyText(cmd).then(function () {
+        box.classList.add('is-copied');
+        hint.textContent = 'Copied!';
+      }, function () {
+        hint.textContent = 'Press Ctrl+C';
+        var r = document.createRange();
+        r.selectNodeContents(code);
+        var sel = window.getSelection();
+        sel.removeAllRanges();
+        sel.addRange(r);
+      });
+      clearTimeout(timer);
+      timer = setTimeout(function () {
+        box.classList.remove('is-copied');
+        hint.textContent = 'Copy';
+      }, 1600);
+    });
+    return box;
+  }
+
   function buildCard(item) {
     var card = el('article', 'card');
     if (item.status === 'active') card.classList.add('card--live');
@@ -423,9 +483,18 @@ var PROJECTS = [
       card.appendChild(status);
     }
 
+    if (item.command) card.appendChild(buildCommand(item.command));
+
     var actions = el('div', 'card__actions');
-    actions.appendChild(buildButton('Blueprints', SVG_BLUEPRINT, item.blueprints, 'ghost'));
-    actions.appendChild(buildButton('Download', SVG_DOWNLOAD, item.download, 'primary'));
+    if (item.buttons && item.buttons.length) {
+      actions.classList.add('card__actions--center');
+      item.buttons.forEach(function (b) {
+        actions.appendChild(buildButton(b.label, '', b.url, 'ghost'));
+      });
+    } else {
+      actions.appendChild(buildButton('Blueprints', SVG_BLUEPRINT, item.blueprints, 'ghost'));
+      actions.appendChild(buildButton('Download', SVG_DOWNLOAD, item.download, 'primary'));
+    }
     card.appendChild(actions);
 
     return card;
