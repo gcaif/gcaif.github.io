@@ -27,9 +27,9 @@
                      bold:  "Isolated sign language recognition (ISLR)", // optional — bold part of text
                      text:  "Custom description shown in the pop-up."
                    }],
-       command:    "curl -fsSL https://...", // optional — code box under the card, click to copy
-       buttons:    [{ label: "Supported Distros", url: "https://..." }], // optional — centered buttons on one line;
-                                         // when present they replace Download / Blueprints
+       command:    "curl -fsSL https://...", // optional — adds a Download button that opens a pop-up with this command
+       buttons:    [{ label: "Supported Distros", url: "https://..." }], // optional — extra centered buttons;
+                                         // with command/buttons, Download / Blueprints are replaced
        download:   "https://...",        // Download button link
        blueprints: "https://..."         // Blueprints button link
      },
@@ -244,6 +244,7 @@ var PROJECTS = [
       '<h3 class="wiki-title" id="wiki-title"></h3>' +
       '<img class="wiki-img" alt="" hidden>' +
       '<div class="wiki-text"></div>' +
+      '<pre class="wiki-code" hidden><code></code></pre>' +
       '<a class="wiki-link" target="_blank" rel="noopener">Read full article \u2192</a>' +
       '<div class="wiki-powered">Powered by <svg class="wiki-powered__logo" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 455 455" fill="#000000" aria-hidden="true" focusable="false"><path fill-rule="evenodd" clip-rule="evenodd" d="M0,0v455h455V0H0z M385,118.141c0,1.918-1.558,3.47-3.477,3.47h-9.736 c-3.546,0-6.744,2.15-8.081,5.439l-88.815,217.909L230.16,244.55L182.3,344.958L90.709,126.964 c-1.364-3.239-4.535-5.345-8.049-5.345h-9.181c-1.918,0-3.479-1.56-3.479-3.479v-8.099h79.147l-0.223,8.193 c-0.05,1.886-1.593,3.385-3.477,3.385h-13.249c-4.926,0-8.302,4.971-6.495,9.548l64.305,162.675l32.522-70.485l-41.099-96.434 c-1.373-3.215-4.526-5.312-8.031-5.312h-6.392c-1.918,0-3.479-1.552-3.479-3.47v-8.099h59.436v8.099c0,1.918-1.56,3.47-3.477,3.47 c-5.013,0-8.398,5.133-6.421,9.745l24.288,56.572l24.799-56.52c2.021-4.614-1.355-9.788-6.401-9.788h-9.284 c-1.927,0-3.479-1.56-3.479-3.479v-8.099h62.242v8.099c0,1.918-1.552,3.479-3.479,3.479h-10.358c-3.385,0-6.471,1.962-7.903,5.03 l-38.312,81.925l35.772,84.058l62.589-161.542c1.739-4.57-1.637-9.472-6.53-9.472H321.54c-1.918,0-3.479-1.56-3.479-3.479v-8.099 H385V118.141z"/></svg></div>';
     document.body.appendChild(overlay);
@@ -276,6 +277,7 @@ var PROJECTS = [
     var imgEl = popup.querySelector('.wiki-img');
     var textEl = popup.querySelector('.wiki-text');
     var linkEl = popup.querySelector('.wiki-link');
+    var codeEl = popup.querySelector('.wiki-code');
 
     titleEl.textContent = fallbackTitle;
     popup.querySelector('.wiki-powered').hidden = !url;   // "Powered by" only for Wikipedia pop-ups
@@ -283,6 +285,8 @@ var PROJECTS = [
     else { linkEl.removeAttribute('href'); linkEl.hidden = true; }
     imgEl.hidden = true;
     imgEl.removeAttribute('src');
+    codeEl.hidden = !tag.code;
+    codeEl.firstChild.textContent = tag.code || '';
 
     // custom description; the term is bold, "\n" starts a new paragraph
     textEl.textContent = '';
@@ -337,58 +341,6 @@ var PROJECTS = [
       row.appendChild(b);
     });
     return row;
-  }
-
-  // code box — click anywhere on it to copy the command
-  function copyText(text) {
-    if (navigator.clipboard && window.isSecureContext) {
-      return navigator.clipboard.writeText(text);
-    }
-    return new Promise(function (resolve, reject) {
-      var ta = document.createElement('textarea');
-      ta.value = text;
-      ta.setAttribute('readonly', '');
-      ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0';
-      document.body.appendChild(ta);
-      ta.select();
-      var ok = false;
-      try { ok = document.execCommand('copy'); } catch (e) {}
-      ta.remove();
-      ok ? resolve() : reject();
-    });
-  }
-
-  function buildCommand(cmd) {
-    var box = el('button', 'cmd');
-    box.type = 'button';
-    box.setAttribute('aria-label', 'Copy command: ' + cmd);
-    var code = el('code', 'cmd__code');
-    code.textContent = cmd;
-    var hint = el('span', 'cmd__hint');
-    hint.textContent = 'Copy';
-    box.appendChild(code);
-    box.appendChild(hint);
-
-    var timer = null;
-    box.addEventListener('click', function () {
-      copyText(cmd).then(function () {
-        box.classList.add('is-copied');
-        hint.textContent = 'Copied!';
-      }, function () {
-        hint.textContent = 'Press Ctrl+C';
-        var r = document.createRange();
-        r.selectNodeContents(code);
-        var sel = window.getSelection();
-        sel.removeAllRanges();
-        sel.addRange(r);
-      });
-      clearTimeout(timer);
-      timer = setTimeout(function () {
-        box.classList.remove('is-copied');
-        hint.textContent = 'Copy';
-      }, 1600);
-    });
-    return box;
   }
 
   function buildCard(item) {
@@ -483,12 +435,31 @@ var PROJECTS = [
       card.appendChild(status);
     }
 
-    if (item.command) card.appendChild(buildCommand(item.command));
-
     var actions = el('div', 'card__actions');
-    if (item.buttons && item.buttons.length) {
+    if (item.command || (item.buttons && item.buttons.length)) {
       actions.classList.add('card__actions--center');
-      item.buttons.forEach(function (b) {
+      var extra = item.buttons || [];
+
+      // Download opens the pop-up with the install command
+      if (item.command) {
+        var dl = el('button', 'btn btn--primary');
+        dl.type = 'button';
+        dl.setAttribute('aria-haspopup', 'dialog');
+        dl.innerHTML = SVG_DOWNLOAD;
+        dl.appendChild(document.createTextNode('Download'));
+        dl.addEventListener('click', function () {
+          openWiki({
+            title: 'Download ' + item.title,
+            text: 'Run this in your terminal:',
+            code: item.command
+          }, dl);
+        });
+        actions.appendChild(dl);
+        // with three buttons, Download sits alone on top on small screens
+        if (extra.length > 1) actions.appendChild(el('span', 'card__break'));
+      }
+
+      extra.forEach(function (b) {
         actions.appendChild(buildButton(b.label, '', b.url, 'ghost'));
       });
     } else {
