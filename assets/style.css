@@ -571,6 +571,22 @@ button {
   margin: 0.35rem 0 0;
 }
 
+.card__note {
+  font-family: var(--sans);
+  font-weight: 500;
+  color: var(--text-dim);
+  font-size: 1.05rem;
+  line-height: 1.3;
+  margin: 0.2rem 0 0;
+}
+
+/* title, years and the bracket note each stay on a single line */
+.card__title,
+.card__years,
+.card__note {
+  white-space: nowrap;
+}
+
 .card__desc {
   grid-column: 1 / -1;
   grid-row: 2;
@@ -659,6 +675,16 @@ button {
   .card { --icon: 6rem; }
   .card__title { font-size: 1.75rem; }
   .card__years { font-size: 1.15rem; }
+  .card__note { font-size: 0.95rem; }
+  .card__main { column-gap: 1.1rem; }
+}
+
+@media (max-width: 360px) {
+  .card { --icon: 5.25rem; }
+  .card__title { font-size: 1.6rem; }
+  .card__years { font-size: 1.05rem; }
+  .card__note { font-size: 0.8rem; }
+  .card__main { column-gap: 0.9rem; }
 }
 
 @media (max-width: 400px) {
