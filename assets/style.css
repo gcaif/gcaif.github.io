@@ -702,6 +702,63 @@ button {
   margin-top: 1.25rem;
 }
 
+.card__actions--center {
+  justify-content: center;
+}
+
+/* code box (click to copy) */
+.cmd {
+  appearance: none;
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  margin: 1.1rem 0 0;
+  padding: 0.7rem 0.9rem;
+  text-align: left;
+  color: #e6e9ef;
+  background: #14171d;
+  border: 1px solid #2a2f3a;
+  border-radius: 10px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+  transition: border-color 0.15s ease, background 0.15s ease;
+}
+
+.cmd__code {
+  flex: 1 1 auto;
+  min-width: 0;
+  overflow-x: auto;
+  white-space: nowrap;
+  scrollbar-width: none;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+  font-size: 0.88rem;
+  line-height: 1.4;
+  user-select: all;
+}
+
+.cmd__code::-webkit-scrollbar { display: none; }
+
+.cmd__hint {
+  flex: none;
+  font-family: var(--sans);
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #9aa3b2;
+}
+
+.cmd.is-copied { border-color: #3fb97a; }
+.cmd.is-copied .cmd__hint { color: #3fb97a; }
+
+.cmd:focus-visible {
+  outline: 2px solid #2d4f9c;
+  outline-offset: 3px;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .cmd:hover { background: #1b1f27; border-color: #3a4150; }
+}
+
 .btn {
   display: inline-flex;
   align-items: center;
