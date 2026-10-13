@@ -972,3 +972,21 @@ button {
   color: #0645ad;
   font-weight: 500;
 }
+
+.wiki-powered {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.35em;
+  margin-top: 0.75rem;
+  font-size: 0.8rem;
+  line-height: 1;
+  color: var(--text-faint);
+}
+
+.wiki-powered__logo {
+  display: block;
+  flex: none;
+  height: 1em;
+  width: 1em;
+}
