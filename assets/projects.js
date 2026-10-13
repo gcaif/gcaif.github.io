@@ -14,6 +14,7 @@
                                          // (or delete the line) and no space is reserved.
        years:      "2022 – 2023",        // duration of the project
        note:       "ownership transferred", // optional — small line under the years, shown in brackets
+       subtitle:   "Secondary title",    // optional — one black line under the years, a bit bigger than desc
        desc:       "One or two lines.",
        tags:       [{                    // optional — small coloured links under the title
                      label: "ISLR",      // that open a Wikipedia pop-up when clicked
@@ -49,6 +50,7 @@ var PROJECTS = [
     banner: ["b/i.webp"],
     years: "2022 – Mid 2026",
     note: "ownership transferred",
+    subtitle: "MASL Real Time Translator",
     desc: "A sign language recognition app that turns hand gestures into text in real time.",
     download: "",
     blueprints: ""
@@ -373,6 +375,11 @@ var PROJECTS = [
       var note = el('p', 'card__note');
       note.textContent = '(' + item.note + ')';
       text.appendChild(note);
+    }
+    if (item.subtitle) {
+      var sub = el('p', 'card__subtitle');
+      sub.textContent = item.subtitle;
+      text.appendChild(sub);
     }
     main.appendChild(text);
 
