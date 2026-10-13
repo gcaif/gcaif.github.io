@@ -15,6 +15,11 @@
        years:      "2022 – 2023",        // duration of the project
        note:       "ownership transferred", // optional — small line under the years, shown in brackets
        subtitle:   "Secondary title",    // optional — one black line under the years, a bit bigger than desc
+       subtitleTag: {                    // optional — makes the start of the subtitle (label) clickable,
+                     label: "MASL",      // opening the same pop-up as the tags, but without Wikipedia
+                     title: "MASL",      // (no "wiki" link = no picture, no "Read full article")
+                     text:  "Line one\nLine two"
+                   },
        desc:       "One or two lines.",
        tags:       [{                    // optional — small coloured links under the title
                      label: "ISLR",      // that open a Wikipedia pop-up when clicked
@@ -51,6 +56,11 @@ var PROJECTS = [
     years: "2022 – Mid 2026",
     note: "ownership transferred",
     subtitle: "MASL Real Time Translator",
+    subtitleTag: {
+      label: "MASL",
+      title: "MASL",
+      text: "Moroccan Sign Language (MSL)\nAmerican Sign Language (ASL)"
+    },
     desc: "A sign language recognition app that turns hand gestures into text in real time.",
     download: "",
     blueprints: ""
@@ -250,9 +260,9 @@ var PROJECTS = [
     var my = ++reqId;
     lastFocus = opener;
 
-    var url = tag.wiki;
+    var url = tag.wiki || '';
     var slug = url.split('/wiki/')[1] || '';
-    var fallbackTitle = decodeURIComponent(slug).replace(/_/g, ' ');
+    var fallbackTitle = tag.title || decodeURIComponent(slug).replace(/_/g, ' ') || tag.label || '';
 
     var titleEl = popup.querySelector('.wiki-title');
     var imgEl = popup.querySelector('.wiki-img');
@@ -260,7 +270,8 @@ var PROJECTS = [
     var linkEl = popup.querySelector('.wiki-link');
 
     titleEl.textContent = fallbackTitle;
-    linkEl.href = url;
+    if (url) { linkEl.href = url; linkEl.hidden = false; }
+    else { linkEl.removeAttribute('href'); linkEl.hidden = true; }
     imgEl.hidden = true;
     imgEl.removeAttribute('src');
 
@@ -284,6 +295,8 @@ var PROJECTS = [
     popup.querySelector('.wiki-close').focus();
 
     // article title + picture come from Wikipedia; the text stays custom
+    // (no wiki link = nothing to fetch)
+    if (!slug) return;
     fetch('https://en.wikipedia.org/api/rest_v1/page/summary/' + slug)
       .then(function (res) { if (!res.ok) throw new Error(res.status); return res.json(); })
       .then(function (data) {
@@ -378,7 +391,18 @@ var PROJECTS = [
     }
     if (item.subtitle) {
       var sub = el('p', 'card__subtitle');
-      sub.textContent = item.subtitle;
+      var st = item.subtitleTag;
+      if (st && st.label && item.subtitle.indexOf(st.label) === 0) {
+        var sb = el('button', 'card__tag');
+        sb.type = 'button';
+        sb.textContent = st.label;
+        sb.setAttribute('aria-haspopup', 'dialog');
+        sb.addEventListener('click', function () { openWiki(st, sb); });
+        sub.appendChild(sb);
+        sub.appendChild(document.createTextNode(item.subtitle.slice(st.label.length)));
+      } else {
+        sub.textContent = item.subtitle;
+      }
       text.appendChild(sub);
     }
     main.appendChild(text);
