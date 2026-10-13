@@ -704,59 +704,19 @@ button {
 
 .card__actions--center {
   justify-content: center;
+  flex-wrap: wrap;
 }
 
-/* code box (click to copy) */
-.cmd {
-  appearance: none;
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  width: 100%;
-  margin: 1.1rem 0 0;
-  padding: 0.7rem 0.9rem;
-  text-align: left;
-  color: #e6e9ef;
-  background: #14171d;
-  border: 1px solid #2a2f3a;
-  border-radius: 10px;
-  cursor: pointer;
-  -webkit-tap-highlight-color: transparent;
-  transition: border-color 0.15s ease, background 0.15s ease;
+/* row break between Download and the other buttons — only on small screens */
+.card__break {
+  display: none;
+  flex-basis: 100%;
+  height: 0;
+  margin: -0.3rem 0;
 }
 
-.cmd__code {
-  flex: 1 1 auto;
-  min-width: 0;
-  overflow-x: auto;
-  white-space: nowrap;
-  scrollbar-width: none;
-  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
-  font-size: 0.88rem;
-  line-height: 1.4;
-  user-select: all;
-}
-
-.cmd__code::-webkit-scrollbar { display: none; }
-
-.cmd__hint {
-  flex: none;
-  font-family: var(--sans);
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: #9aa3b2;
-}
-
-.cmd.is-copied { border-color: #3fb97a; }
-.cmd.is-copied .cmd__hint { color: #3fb97a; }
-
-.cmd:focus-visible {
-  outline: 2px solid #2d4f9c;
-  outline-offset: 3px;
-}
-
-@media (hover: hover) and (pointer: fine) {
-  .cmd:hover { background: #1b1f27; border-color: #3a4150; }
+@media (max-width: 520px) {
+  .card__break { display: block; }
 }
 
 .btn {
@@ -1032,6 +992,37 @@ button {
 .wiki-link[hidden] { display: none; }
 
 .wiki-powered[hidden] { display: none; }
+
+.wiki-code[hidden] { display: none; }
+
+/* command in the Download pop-up */
+.wiki-code {
+  margin: 0.25rem 0 0.25rem;
+  padding: 0.95rem 1.05rem;
+  color: #e6e9ef;
+  background: #14171d;
+  border: 1px solid #2a2f3a;
+  border-radius: 10px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.04);
+}
+
+.wiki-code code {
+  display: block;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, 'Liberation Mono', monospace;
+  font-size: 0.92rem;
+  line-height: 1.55;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  user-select: all;
+  -webkit-user-select: all;
+}
+
+.wiki-code code::before {
+  content: '$ ';
+  color: #6f7a8f;
+  user-select: none;
+  -webkit-user-select: none;
+}
 
 .wiki-text p {
   margin: 0 0 0.75rem;
