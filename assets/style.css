@@ -107,6 +107,12 @@ button {
 /* ---------- Top header ---------- */
 
 .top-header {
+  /* One fluid unit drives the whole header. It grows with the viewport width
+     but is also capped by the viewport height, so wide-and-short screens
+     (phones in landscape, ultrawide monitors) and tall-and-narrow ones
+     (portrait phones) each get a proportionate header. Everything below is a
+     multiple of --hu, so the header keeps its proportions at any aspect ratio. */
+  --hu: clamp(14px, min(calc(11px + 0.6vw), 5vh), 22px);
   position: relative;
   background: var(--fade);
 }
@@ -117,7 +123,7 @@ button {
   top: calc(100% - 1px);
   left: 0;
   right: 0;
-  height: 40px;
+  height: calc(var(--hu) * 2.5);
   background: var(--header);
   z-index: -1;
 }
@@ -128,17 +134,18 @@ button {
   width: 100%;
   max-width: var(--shell-w);
   margin: 0 auto;
-  padding: 0.9rem var(--gutter);
+  padding: calc(var(--hu) * 0.9) var(--gutter);
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 1rem;
+  gap: var(--hu);
 }
 
 .top-header__title {
   font-family: var(--serif);
   font-weight: 800;
-  font-size: 1.6rem;
+  font-size: calc(var(--hu) * 1.7);
+  line-height: 1.15;
   letter-spacing: -0.01em;
   color: #fff;
   cursor: default;
@@ -158,15 +165,15 @@ button {
 .top-header__icons {
   display: flex;
   align-items: center;
-  gap: 0.55rem;
+  gap: calc(var(--hu) * 0.55);
 }
 
 .top-header__icons a {
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 28px;
-  height: 28px;
+  width: calc(var(--hu) * 1.75);
+  height: calc(var(--hu) * 1.75);
   transition: opacity 0.15s ease;
 }
 
@@ -181,17 +188,17 @@ button {
 }
 
 .top-header__icons a[aria-label="LinkedIn"] svg {
-  width: 68px;
-  height: 17px;
+  width: calc(var(--hu) * 4.25);
+  height: calc(var(--hu) * 1.06);
 }
 
 .top-header__icons a[aria-label="Email"] svg {
-  width: 17px;
-  height: 17px;
+  width: calc(var(--hu) * 1.06);
+  height: calc(var(--hu) * 1.06);
 }
 
 .top-header__icons a[aria-label="Email"] {
-  transform: translateX(-7px);
+  transform: translateX(calc(var(--hu) * -0.44));
 }
 
 .top-header__icons svg path {
@@ -200,7 +207,7 @@ button {
 
 .top-header__sep {
   color: #ffffff;
-  font-size: 0.95rem;
+  font-size: calc(var(--hu) * 0.95);
   font-weight: 300;
   line-height: 1;
   user-select: none;
