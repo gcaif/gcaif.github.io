@@ -25,8 +25,7 @@
 
 var PROJECTS = [
   {
-    title: "Ishara",
-    icon: "Ishara.webp",
+    title: "Untitled",
     banner: ["b/i.webp"],
     years: "2022 – Mid 2026",
     note: "ownership transferred",
@@ -149,7 +148,7 @@ var PROJECTS = [
       function startTimer() {
         if (reduce) return;
         clearInterval(timer);
-        timer = setInterval(function () { show(cur + 1); }, 1200);
+        timer = setInterval(function () { show(cur + 1); }, 2900);
       }
       startTimer();
 
@@ -207,10 +206,13 @@ var PROJECTS = [
     }
 
     var main = el('div', 'card__main');
+    // no icon: the title goes in the centre with years + note on one line under it
+    var noIcon = !item.icon;
+    if (noIcon) main.classList.add('card__main--center');
 
     // icon slot — stays as an empty placeholder until an image is provided
     var badge = el('span', 'card__icon');
-    if (item.icon) {
+    if (!noIcon) {
       var img = document.createElement('img');
       img.src = ICON_DIR + item.icon;
       img.alt = '';
@@ -219,18 +221,28 @@ var PROJECTS = [
       img.onerror = function () { img.remove(); };
       badge.appendChild(img);
     }
-    main.appendChild(badge);
+    if (!noIcon) main.appendChild(badge);
 
     var text = el('div', 'card__text');
     var title = el('h3', 'card__title');
     title.textContent = item.title;
     text.appendChild(title);
-    if (item.years) {
+    if (noIcon && (item.years || item.note)) {
+      // one line: "2022 – Mid 2026 (ownership transferred)"
+      var line = el('p', 'card__years card__years--line');
+      line.appendChild(document.createTextNode(item.years || ''));
+      if (item.note) {
+        var inline = el('span', 'card__note-inline');
+        inline.textContent = (item.years ? ' ' : '') + '(' + item.note + ')';
+        line.appendChild(inline);
+      }
+      text.appendChild(line);
+    } else if (item.years) {
       var years = el('p', 'card__years');
       years.textContent = item.years;
       text.appendChild(years);
     }
-    if (item.note) {
+    if (item.note && !noIcon) {
       var note = el('p', 'card__note');
       note.textContent = '(' + item.note + ')';
       text.appendChild(note);
