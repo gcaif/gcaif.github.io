@@ -616,6 +616,31 @@ button {
   white-space: nowrap;
 }
 
+/* card without an icon: title centred, years + note on a single line under it */
+.card__main--center {
+  display: block;
+  text-align: center;
+}
+
+.card__main--center .card__title {
+  font-size: clamp(1.75rem, 8vw, 2.4rem);
+}
+
+.card__main--center .card__years--line {
+  font-size: clamp(0.78rem, 3.6vw, 1.25rem);
+  margin-top: 0.4rem;
+}
+
+.card__note-inline {
+  font-weight: 500;
+  color: var(--text-dim);
+}
+
+.card__main--center .card__desc {
+  margin-left: auto;
+  margin-right: auto;
+}
+
 .card__desc {
   grid-column: 1 / -1;
   grid-row: 2;
