@@ -972,6 +972,8 @@ button {
 
 .wiki-img[hidden] { display: none; }
 
+.wiki-link[hidden] { display: none; }
+
 .wiki-text p {
   margin: 0 0 0.75rem;
   font-size: 1rem;
