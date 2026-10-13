@@ -270,6 +270,7 @@ var PROJECTS = [
     var linkEl = popup.querySelector('.wiki-link');
 
     titleEl.textContent = fallbackTitle;
+    popup.querySelector('.wiki-powered').hidden = !url;   // "Powered by" only for Wikipedia pop-ups
     if (url) { linkEl.href = url; linkEl.hidden = false; }
     else { linkEl.removeAttribute('href'); linkEl.hidden = true; }
     imgEl.hidden = true;
