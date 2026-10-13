@@ -13,6 +13,7 @@
                                          // for one image. No banner? use  banner: ""
                                          // (or delete the line) and no space is reserved.
        years:      "2022 – 2023",        // duration of the project
+       note:       "ownership transferred", // optional — small line under the years, shown in brackets
        desc:       "One or two lines.",
        download:   "https://...",        // Download button link
        blueprints: "https://..."         // Blueprints button link
@@ -27,7 +28,8 @@ var PROJECTS = [
     title: "Ishara",
     icon: "Ishara.webp",
     banner: ["b/i.webp"],
-    years: "2023 – 2024",
+    years: "2022 – Mid 2026",
+    note: "ownership transferred",
     desc: "A sign language recognition app that turns hand gestures into text in real time.",
     download: "",
     blueprints: ""
@@ -227,6 +229,11 @@ var PROJECTS = [
       var years = el('p', 'card__years');
       years.textContent = item.years;
       text.appendChild(years);
+    }
+    if (item.note) {
+      var note = el('p', 'card__note');
+      note.textContent = '(' + item.note + ')';
+      text.appendChild(note);
     }
     main.appendChild(text);
 
