@@ -1,1 +1,794 @@
-a
+/* Saif — index
+   A personal directory, kept like a ledger. */
+
+@import url('https://fonts.googleapis.com/css2?family=Figtree:wght@400..700&display=swap');
+
+:root {
+  --bg: #eef2f6;
+  --panel: #ffffff;
+  --header-rgb: 62, 67, 81;
+  --header: #3e4351;
+  --header-deep: #272d3a;
+  --header-deep-rgb: 39, 45, 58;
+  --fade: linear-gradient(to bottom, #272d3a, #3e4351);
+  --pine: #3f5f52;
+  --pine-dim: rgba(63, 95, 82, 0.16);
+  --clay: #8f6340;
+  --line: rgba(27, 36, 48, 0.14);
+  --line-soft: rgba(27, 36, 48, 0.08);
+  --text: #1c2430;
+  --text-dim: #4a5462;
+  --text-faint: #5f6979;
+
+  --serif: 'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  --sans: 'Figtree', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+
+  --glass-bg: rgba(255, 255, 255, 0.55);
+  --glass-border: rgba(255, 255, 255, 0.75);
+  --glass-shadow: 0 1px 3px rgba(28, 36, 48, 0.08), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+* { box-sizing: border-box; }
+
+html {
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-y: scroll;
+  scrollbar-gutter: stable;
+}
+
+body {
+  margin: 0;
+  background-color: var(--bg);
+  color: var(--text);
+  font-family: var(--sans);
+  font-size: 16px;
+  line-height: 1.5;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  min-height: 100dvh;
+}
+
+a { color: inherit; text-decoration: none; }
+
+button {
+  font-family: inherit;
+  background: none;
+  border: none;
+  color: inherit;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--header-deep);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  * { animation: none !important; transition: none !important; }
+}
+
+.skip-link {
+  position: absolute;
+  left: -999px;
+}
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+  background: var(--panel);
+  color: var(--text);
+  padding: 0.5rem 1rem;
+  border-radius: 4px;
+  box-shadow: var(--glass-shadow);
+  z-index: 10;
+}
+
+/* ---------- Top header ---------- */
+
+.top-header {
+  position: relative;
+  background: var(--fade);
+}
+
+.top-header::after {
+  content: "";
+  position: absolute;
+  top: calc(100% - 1px);
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: var(--header);
+  z-index: -1;
+}
+
+.top-header__inner {
+  position: relative;
+  z-index: 1;
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 0.9rem 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.top-header__title {
+  font-family: var(--serif);
+  font-weight: 800;
+  font-size: 1.6rem;
+  letter-spacing: -0.01em;
+  color: #fff;
+  cursor: default;
+}
+
+.top-header::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 33%;
+  background: linear-gradient(to bottom, rgba(0, 0, 0, 0.18), rgba(0, 0, 0, 0));
+  pointer-events: none;
+}
+
+.top-header__icons {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+}
+
+.top-header__icons a {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  transition: opacity 0.15s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .top-header__icons a:hover {
+    opacity: 0.7;
+  }
+}
+
+.top-header__icons a[aria-label="LinkedIn"] {
+  width: auto;
+}
+
+.top-header__icons a[aria-label="LinkedIn"] svg {
+  width: 68px;
+  height: 17px;
+}
+
+.top-header__icons a[aria-label="Email"] svg {
+  width: 17px;
+  height: 17px;
+}
+
+.top-header__icons a[aria-label="Email"] {
+  transform: translateX(-7px);
+}
+
+.top-header__icons svg path {
+  fill: #fff;
+}
+
+.top-header__sep {
+  color: #ffffff;
+  font-size: 0.95rem;
+  font-weight: 300;
+  line-height: 1;
+  user-select: none;
+  pointer-events: none;
+}
+
+/* ---------- Shell ---------- */
+
+.shell {
+  width: 100%;
+  max-width: 640px;
+  margin: 0 auto;
+  flex: 1 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.main {
+  flex: 1 0 auto;
+  position: relative;
+  isolation: isolate;
+  padding: 1.5rem 1.5rem 5rem;
+  /* soft slate panel (tinted from the header colour #3e4351) so white-background
+     images stand out — used on both the Links and Projects pages */
+  background-color: #c3c8d2;
+  --line: rgba(27, 36, 48, 0.24);
+  border-radius: 32px 32px 0 0;
+}
+
+/* Links / media page (the one with the tabs) is plain white again,
+   with the soft shadow fading down from the top (.main::before) */
+.main:has(.tabs) {
+  background-color: #ffffff;
+  --line: rgba(27, 36, 48, 0.14);
+}
+
+.main::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 90px;
+  background: linear-gradient(to bottom, rgba(var(--header-deep-rgb), 0.16), rgba(var(--header-deep-rgb), 0));
+  border-radius: 32px 32px 0 0;
+  pointer-events: none;
+}
+
+.crossnav {
+  display: flex;
+  justify-content: center;
+  gap: 0.4rem;
+  font-size: 0.9rem;
+  margin: 0 0 1.5rem;
+  padding-bottom: 1.5rem;
+  border-bottom: 1px solid var(--line);
+}
+
+.crossnav:has(+ .tagline) {
+  margin-bottom: 0;
+  padding-bottom: 0;
+  border-bottom: none;
+}
+
+.crossnav a {
+  color: #000;
+  padding: 0.4rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  font-weight: 600;
+  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease;
+}
+
+.crossnav a[aria-current="page"] {
+  background: rgba(var(--header-rgb), 0.3);
+  border-color: rgba(var(--header-rgb), 0.65);
+  box-shadow: 0 2px 6px rgba(var(--header-rgb), 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px) saturate(140%);
+  -webkit-backdrop-filter: blur(8px) saturate(140%);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .crossnav a:hover:not([aria-current="page"]) {
+    background: rgba(255, 255, 255, 0.32);
+  }
+}
+
+.tagline {
+  color: var(--text-dim);
+  font-size: 0.98rem;
+  max-width: 34ch;
+  margin: 1.25rem auto 1.25rem;
+  text-align: center;
+}
+
+/* ---------- Tabs ---------- */
+
+.tabs {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 1.5rem;
+}
+
+.tab {
+  padding: 0.5rem 1.1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: var(--text-dim);
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, color 0.15s ease;
+}
+
+.tab[aria-selected="true"] {
+  color: var(--text);
+  background: rgba(var(--header-rgb), 0.3);
+  border-color: rgba(var(--header-rgb), 0.65);
+  box-shadow: 0 2px 6px rgba(var(--header-rgb), 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  backdrop-filter: blur(8px) saturate(140%);
+  -webkit-backdrop-filter: blur(8px) saturate(140%);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .tab:hover:not([aria-selected="true"]) {
+    color: var(--text);
+    background: rgba(255, 255, 255, 0.32);
+  }
+}
+
+.panel[hidden] { display: none; }
+
+/* ---------- Directory rows (socials / media) ---------- */
+
+.directory {
+  margin-top: 0.5rem;
+}
+
+.entry {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1rem 1.1rem;
+  margin-bottom: 0.7rem;
+  background: rgba(255, 255, 255, 0.55);
+  border: 1px solid var(--glass-border);
+  border-radius: 16px;
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(8px) saturate(140%);
+  -webkit-backdrop-filter: blur(8px) saturate(140%);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .entry:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 10px rgba(28, 36, 48, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+  }
+}
+
+.entry:last-child {
+  margin-bottom: 0;
+}
+
+.entry--spacer {
+  height: 72px;
+  padding: 0;
+  margin-bottom: 0.7rem;
+  background: none;
+  border: none;
+  box-shadow: none;
+  backdrop-filter: none;
+  -webkit-backdrop-filter: none;
+  pointer-events: none;
+}
+
+.entry--spacer:hover {
+  transform: none;
+  box-shadow: none;
+}
+
+.entry__badge {
+  flex: none;
+  width: 40px;
+  height: 40px;
+  border-radius: 8px;
+  background: var(--pine-dim);
+  color: var(--pine);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.entry__badge svg { width: 20px; height: 20px; }
+
+.entry__link[href*="x.com"] .entry__badge svg { width: 22px; height: 22px; }
+
+.entry__badge img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.entry__text {
+  flex: 1;
+  min-width: 0;
+}
+
+.entry__name {
+  font-family: var(--serif);
+  font-size: 1.05rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  color: var(--text);
+  transition: color 0.15s ease;
+}
+
+.entry__handle {
+  color: var(--text-faint);
+  font-size: 0.88rem;
+  margin-top: 0.15rem;
+}
+
+.entry__go {
+  flex: none;
+  color: var(--text-faint);
+  transition: transform 0.15s ease, color 0.15s ease;
+}
+
+.entry__link {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  width: 100%;
+}
+
+.entry__link:focus-visible .entry__go {
+  transform: translateX(3px);
+  color: var(--header-deep);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .entry__link:hover .entry__go {
+    transform: translateX(3px);
+    color: var(--header-deep);
+  }
+
+  .entry__link:hover .entry__name {
+    color: var(--header-deep);
+  }
+}
+
+/* ---------- Project cards ---------- */
+
+.main .card__desc {
+  color: #2b3340;
+  font-weight: 450;
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0;
+  margin-top: 0;
+}
+
+.card {
+  --icon: 8.5rem;
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  padding: 2rem 0;
+}
+
+/* projects sit free on the page, separated by the same line as under the nav */
+.card + .card {
+  border-top: 1px solid var(--line);
+}
+
+/* background image, top of the card, 256 / 135 ratio.
+   With several images they sit stacked; the next one replaces the previous
+   instantly (no fade) and people can swipe / drag / scroll sideways. */
+.card__banner {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 256 / 135;
+  margin: 0 0 1.5rem;
+  border-radius: 18px;
+  border: 1px solid var(--line);
+  overflow: hidden;
+  touch-action: pan-y pinch-zoom;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.card__banner img {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  opacity: 0;
+  visibility: hidden;
+}
+
+.card__banner img.is-active {
+  opacity: 1;
+  visibility: visible;
+}
+
+/* images can't be long-pressed, right-clicked or dragged out */
+.card__banner img,
+.card__icon img {
+  pointer-events: none;
+  -webkit-user-drag: none;
+  -webkit-user-select: none;
+  user-select: none;
+  -webkit-touch-callout: none;
+}
+
+.card__icon {
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+}
+
+/* row 1: icon + title/years   row 2: description underneath, full width */
+.card__main {
+  display: grid;
+  grid-template-columns: var(--icon) 1fr;
+  column-gap: 1.5rem;
+  align-items: center;
+}
+
+.card__icon {
+  grid-column: 1;
+  grid-row: 1;
+  width: var(--icon);
+  height: var(--icon);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 26px;
+  background: var(--pine-dim);
+  border: 1px dashed var(--line);
+  overflow: hidden;
+}
+
+.card__icon:has(img) {
+  background: none;
+  border: none;
+}
+
+.card__icon img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 26px;
+  display: block;
+}
+
+.card__text {
+  grid-column: 2;
+  grid-row: 1;
+  min-width: 0;
+}
+
+.card__title {
+  font-family: var(--sans);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  font-size: 2.4rem;
+  line-height: 1.2;
+  color: var(--text);
+  margin: 0;
+}
+
+.card__years {
+  font-family: var(--sans);
+  font-weight: 600;
+  color: var(--text);
+  font-size: 1.45rem;
+  line-height: 1.3;
+  margin: 0.35rem 0 0;
+}
+
+.card__note {
+  font-family: var(--sans);
+  font-weight: 500;
+  color: var(--text-dim);
+  font-size: 1.05rem;
+  line-height: 1.3;
+  margin: 0.2rem 0 0;
+}
+
+/* title, years and the bracket note each stay on a single line */
+.card__title,
+.card__years,
+.card__note {
+  white-space: nowrap;
+}
+
+.card__desc {
+  grid-column: 1 / -1;
+  grid-row: 2;
+  font-family: var(--sans);
+  font-weight: 400;
+  color: var(--text-dim);
+  font-size: 1.125rem;
+  line-height: 1.65;
+  margin: 1.25rem 0 0;
+  max-width: 60ch;
+}
+
+.card__status {
+  position: absolute;
+  top: 2.1rem;
+  right: 0;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-size: 0.8rem;
+  color: var(--text-faint);
+}
+
+.card__dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--text-faint);
+}
+
+.card--live .card__dot {
+  background: var(--clay);
+  animation: pulse 2.4s ease-in-out infinite;
+}
+
+.card--live .card__status { color: var(--clay); }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.35; }
+}
+
+/* buttons: side by side, pushed to the right */
+.card__actions {
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 1.25rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.92rem;
+  font-weight: 600;
+  line-height: 1.2;
+  border-radius: 999px;
+  border: 1px solid transparent;
+  transition: background 0.15s ease, border-color 0.15s ease, box-shadow 0.15s ease, transform 0.15s ease;
+}
+
+.btn--primary {
+  color: #fff;
+  background: var(--header-deep);
+  border-color: var(--header-deep);
+  box-shadow: 0 2px 6px rgba(var(--header-deep-rgb), 0.28), inset 0 1px 0 rgba(255, 255, 255, 0.25);
+}
+
+.btn--ghost {
+  color: var(--text);
+  background: rgba(var(--header-rgb), 0.14);
+  border-color: rgba(var(--header-rgb), 0.5);
+}
+
+.btn--disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+  box-shadow: none;
+}
+
+@media (max-width: 520px) {
+  .card { --icon: 6rem; }
+  .card__title { font-size: 1.75rem; }
+  .card__years { font-size: 1.15rem; }
+  .card__note { font-size: 0.95rem; }
+  .card__main { column-gap: 1.1rem; }
+}
+
+@media (max-width: 360px) {
+  .card { --icon: 5.25rem; }
+  .card__title { font-size: 1.6rem; }
+  .card__years { font-size: 1.05rem; }
+  .card__note { font-size: 0.8rem; }
+  .card__main { column-gap: 0.9rem; }
+}
+
+@media (max-width: 400px) {
+  .btn { padding: 0.5rem 0.85rem; font-size: 0.88rem; gap: 0.35rem; }
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .btn:not(.btn--disabled):hover { transform: translateY(-1px); }
+  .btn--primary:not(.btn--disabled):hover { background: #1c2029; }
+  .btn--ghost:not(.btn--disabled):hover { background: rgba(var(--header-rgb), 0.28); }
+}
+
+.empty {
+  color: var(--text-faint);
+  font-size: 0.92rem;
+  padding: 1.5rem 0.25rem;
+  border-top: 1px solid var(--line);
+}
+
+/* ---------- Footer ---------- */
+
+.site-footer {
+  flex: none;
+  width: 100%;
+  min-height: 4rem;
+  padding: 0 1.5rem;
+  background: var(--fade);
+  box-shadow: inset 0 1px 0 rgba(0, 0, 0, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.footer-brand {
+  display: flex;
+  align-items: center;
+  gap: 0.18rem;
+
+  /* Single control: adjust these three to restyle the whole footer brand (icon + text) at once */
+  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.85);
+  opacity: 1;
+}
+
+.footer-brand svg {
+  width: 14px;
+  height: 14px;
+  display: block;
+  position: relative;
+  top: 0px;
+}
+
+.footer-brand svg path {
+  fill: currentColor;
+}
+
+.footer-brand span {
+  font-family: var(--serif);
+  font-weight: 800;
+  font-size: inherit;
+  letter-spacing: -0.01em;
+  color: inherit;
+}
+
+.footer-brand span.footer-year {
+  font-weight: 800;
+  font-size: 1em;
+}
+
+.footer-sep {
+  font-weight: 400;
+}
+
+.foot {
+  margin-top: 3.5rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--line-soft);
+  color: var(--text-faint);
+  font-size: 0.82rem;
+}
+
+/* ---------- Desktop ---------- */
+
+@media (min-width: 880px) and (hover: hover) and (pointer: fine) {
+  body {
+    background-color: var(--header-deep);
+    background-image: linear-gradient(160deg, #272d3a 0%, #3e4351 100%);
+    background-attachment: fixed;
+    background-size: cover;
+  }
+
+  .main {
+    padding: 2rem 3.5rem 5rem;
+    background-image: none;
+  }
+
+  .site-footer {
+    padding: 0 3.5rem;
+  }
+
+  .grid {
+    grid-template-columns: 1fr;
+    gap: 0;
+  }
+
+}
